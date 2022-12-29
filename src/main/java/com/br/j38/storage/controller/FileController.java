@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @CrossOrigin
@@ -39,7 +40,7 @@ public class FileController {
     }
 
     @GetMapping("/image/{id}")
-    public ResponseEntity<?> downloadImage(@PathVariable Long id){
+    public ResponseEntity<?> downloadImage(@PathVariable UUID id){
         byte[] imageData= storageService.downloadImageFromDb(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("image/png"))
@@ -47,7 +48,7 @@ public class FileController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<byte[]> downloadFile(@PathVariable Long id) {
+    public ResponseEntity<byte[]> downloadFile(@PathVariable UUID id) {
         FileData fileData = storageService.downloadFileFromDb(id);
 
         return ResponseEntity.ok()

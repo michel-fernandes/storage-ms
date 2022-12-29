@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @Service
@@ -29,12 +30,12 @@ public class StorageService {
         return "file uploaded successfully : " + file.getOriginalFilename();
     }
 
-    public byte[] downloadImageFromDb(Long id){
+    public byte[] downloadImageFromDb(UUID id){
         Optional<FileData> dbImageData = storageRepository.findById(id);
         return FileUtils.decompressImage(dbImageData.get().getData());
     }
 
-    public FileData downloadFileFromDb(Long id){
+    public FileData downloadFileFromDb(UUID id){
         Optional<FileData> dbFileData = storageRepository.findById(id);
 
         if(dbFileData.isPresent()){
