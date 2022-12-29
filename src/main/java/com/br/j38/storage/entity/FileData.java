@@ -20,14 +20,15 @@ import java.util.UUID;
 public class FileData implements Serializable {
     private static final  long serialVersionUID= 1L;
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    /*@GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator",
         parameters = {@Parameter(
             name = "uuid_gen_strategy_class",
             value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
         )}
     )
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false, nullable = false)*/
     private UUID id;
     private String name;
     private String type;
