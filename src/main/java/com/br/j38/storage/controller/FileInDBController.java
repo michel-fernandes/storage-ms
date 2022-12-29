@@ -3,6 +3,7 @@ package com.br.j38.storage.controller;
 import com.br.j38.storage.Dto.ResponseFile;
 import com.br.j38.storage.Dto.ResponseMessage;
 import com.br.j38.storage.entity.FileData;
+import com.br.j38.storage.service.FileSystemStorageService;
 import com.br.j38.storage.service.StorageService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,17 +19,17 @@ import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/file")
-public class FileController {
+@RequestMapping("/file-db")
+public class FileInDBController {
 
     private final StorageService storageService;
 
-    public FileController(StorageService storageService) {
+    public FileInDBController(StorageService storageService) {
         this.storageService = storageService;
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file)  {
+    public ResponseEntity<ResponseMessage> uploadFileToDB(@RequestParam("file") MultipartFile file)  {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseMessage(storageService.uploadCompressFileToDb(file)));
@@ -61,7 +62,7 @@ public class FileController {
         List<ResponseFile> files = storageService.getAllFiles().map(dbFile -> {
             String fileDownloadUri = ServletUriComponentsBuilder
                     .fromCurrentContextPath()
-                    .path("/files/")
+                    .path("/file-db/")
                     .path(dbFile.getId().toString())
                     .toUriString();
 
@@ -74,4 +75,5 @@ public class FileController {
 
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
+
 }

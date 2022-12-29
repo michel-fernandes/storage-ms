@@ -12,12 +12,12 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "TB_STORAGE")
+@Table(name = "TB_STORAGE_REF")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FileData implements Serializable {
+public class FileSytemData implements Serializable {
     private static final  long serialVersionUID= 1L;
     @Id
     @GeneratedValue(generator = "UUID")
@@ -31,8 +31,6 @@ public class FileData implements Serializable {
     private UUID id;
     private String name;
     private String type;
-    @Lob
-    @Column(name = "filedata",length = 1000)
-    private byte[] data;
+    private String filePath;
 
 }
