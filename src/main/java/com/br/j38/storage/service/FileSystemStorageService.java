@@ -28,17 +28,20 @@ public class FileSystemStorageService {
 
     public String uploadFileToFileSystem(MultipartFile file) throws IOException {
         String filePath = FOLDER_SYSTEM_PATH + file.getOriginalFilename();
-        fileSystemStorageRepository.save(FileSytemData.builder()
+        FileSytemData fileSystemData = fileSystemStorageRepository.save(FileSytemData.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .filePath(filePath).build());
         file.transferTo(new File(filePath));
-        return "file uploaded successfully : " + filePath;
+        return "file uploaded successfully : " + filePath + " - Id: " + fileSystemData.getId();
     }
 
     public byte[] downloadImageFromFileSystem(UUID id) throws IOException {
         Optional<FileSytemData> fileSytemData = fileSystemStorageRepository.findById(id);
-        return Files.readAllBytes(new File(fileSytemData.get().getFilePath()).toPath());
+        if(fileSytemData.isPresent()){
+            return Files.readAllBytes(new File(fileSytemData.get().getFilePath()).toPath());
+        }
+        return null;
     }
 
     public FileData downloadFileFromFileSystem(UUID id) throws IOException {

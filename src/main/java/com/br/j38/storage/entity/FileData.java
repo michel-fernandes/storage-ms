@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -27,7 +28,8 @@ public class FileData implements Serializable {
             value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
         )}
     )
-    @Column(name = "id", updatable = false, nullable = false)
+    @Type(type="org.hibernate.type.UUIDCharType")
+    @Column(name = "id", updatable = false, nullable = false, length = 36)
     private UUID id;
     private String name;
     private String type;

@@ -23,16 +23,19 @@ public class StorageService {
 
     public String uploadCompressFileToDb(MultipartFile file) throws IOException {
 
-        storageRepository.save(FileData.builder()
+        FileData fileData = storageRepository.save(FileData.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .data(FileUtils.compressImage(file.getBytes())).build());
-        return "file uploaded successfully : " + file.getOriginalFilename();
+        return "file uploaded successfully : " + file.getOriginalFilename() + " - Id: " + fileData.getId();
     }
 
     public byte[] downloadImageFromDb(UUID id){
         Optional<FileData> dbImageData = storageRepository.findById(id);
-        return FileUtils.decompressImage(dbImageData.get().getData());
+        if(dbImageData.isPresent()) {
+            return FileUtils.decompressImage(dbImageData.get().getData());
+        }
+        return null;
     }
 
     public FileData downloadFileFromDb(UUID id){
